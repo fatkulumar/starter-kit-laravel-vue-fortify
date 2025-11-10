@@ -27,13 +27,33 @@ export type AppPageProps<
 };
 
 export interface User {
-    id: number;
+    id: string;
     name: string;
     email: string;
     avatar?: string;
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    role: string;
+    profile: Profile;
+}
+
+export interface Profile {
+    id: string;
+    user_id: string;
+    photo: File | null;
+    photo_url: string;
+}
+
+export interface Paginated<T> {
+    current_page: number;
+    data: T[];
+    per_page: number;
+    total: number;
+    last_page: number;
+    from?: number;
+    to?: number;
+    links: Array;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

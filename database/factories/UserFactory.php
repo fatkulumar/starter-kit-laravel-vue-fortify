@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -26,7 +27,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= 'password',
+            'password' => static::$password ??= 'fatkulumar',
             'remember_token' => Str::random(10),
             'two_factor_secret' => Str::random(10),
             'two_factor_recovery_codes' => Str::random(10),
@@ -54,5 +55,18 @@ class UserFactory extends Factory
             'two_factor_recovery_codes' => null,
             'two_factor_confirmed_at' => null,
         ]);
+    }
+
+    /**
+     * add role after make account
+     */
+    public function configure(): static
+    {
+        return $this->afterCreating(function ($user) {
+            $user->assignRole('member');
+            $user->profile()->create(
+                collect(Profile::factory()->make()->getAttributes())->only(['photo'])->toArray()
+            );
+        });
     }
 }

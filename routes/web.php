@@ -15,3 +15,6 @@ Route::get('dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/settings.php';
+// admin user
+require __DIR__.'/admin/user/web.php';
+require __DIR__.'/admin/user/api.php';

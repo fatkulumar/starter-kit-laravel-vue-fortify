@@ -1,25 +1,52 @@
 # Laravel + Vue Starter Kit
 
-## Introduction
+[Laravel 12.x Inertia Vue](https://laravel.com/docs/12.x)
 
-Our Vue starter kit provides a robust, modern starting point for building Laravel applications with a Vue frontend using [Inertia](https://inertiajs.com).
+##### Libraries
+- [Axios 1.10.0](https://axios-http.com/docs/intro)
+- [Pinia 0.11.1](https://vuejs.org/guide/quick-start)
 
-Inertia allows you to build modern, single-page Vue applications using classic server-side routing and controllers. This lets you enjoy the frontend power of Vue combined with the incredible backend productivity of Laravel and lightning-fast Vite compilation.
+##### Requirements
+- [PHP >= 8.2](https://laravel.com/docs/12.x/deployment)
+- [Node >= 22.20](https://laravel.com/docs/12.x/deployment)
 
-This Vue starter kit utilizes Vue 3 and the Composition API, TypeScript, Tailwind, and the [shadcn-vue](https://www.shadcn-vue.com) component library.
+##### Installation
+    composer install
+    copy .env-example to .env
+    php artisan key:generate
+    php artisan migrate:fresh --seed
+    composer run dev
 
-## Official Documentation
+##### Structure
+- app
+    - Http
+    - Models
+    - Providers
+    - Traits
+- bootstrap
+- config
+- database
+    - factories
+    - migrations
+    - seeders
+- public
+- resources
+    - css
+    - js
+    - views
+- routes
+- storage
+    - app
+    - framework
+    - logs
+- tests
 
-Documentation for all Laravel starter kits can be found on the [Laravel website](https://laravel.com/docs/starter-kits).
+#### Laravel Optimize Performance (optional)
+1. When installing vendors in Laravel, use the --no-dev option so that development dependencies are not installed.
+    composer install --optimize-autoloader --no-dev
+2. Use artisan optimize
+    php artisan optimize
 
-## Contributing
-
-Thank you for considering contributing to our starter kit! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## License
-
-The Laravel + Vue starter kit is open-sourced software licensed under the MIT license.
+#### Reminder
+    app/Http/Middleware/HandleInertiaRequests.php => setting $page
+    config/fortify => enable/disable two factor auth

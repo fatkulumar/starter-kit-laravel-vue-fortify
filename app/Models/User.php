@@ -3,16 +3,21 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\HashUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
-
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, HashUuid, HasRoles;
+    public $incrementing = false; 
+    protected $keyType = 'string'; 
     /**
      * The attributes that are mass assignable.
      *
@@ -34,6 +39,7 @@ class User extends Authenticatable
         'two_factor_secret',
         'two_factor_recovery_codes',
         'remember_token',
+        'roles'
     ];
 
     /**
@@ -48,5 +54,29 @@ class User extends Authenticatable
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
         ];
+    }
+
+    protected $appends = ['role'];
+
+    protected $with = ['profile'];
+
+    public function scopeFilter($query, $search)
+    {
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+    }
+
+    public function getRoleAttribute(): ?string
+    {
+        return $this->getRoleNames()->first();
+    }
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class);
     }
 }
