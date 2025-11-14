@@ -56,13 +56,11 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div class="flex h-screen bg-black text-gray-200">
+  <div class="flex h-screen bg-white text-black dark:bg-black dark:text-gray-200">
     <Sidebar />
-    
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
-      <Header :breadcrumbs="breadcrumbs"/>
-      
+      <Header :breadcrumbs="breadcrumbs" />
       <!-- Dashboard Content -->
       <div class="flex-1 overflow-y-auto p-4 md:p-6">
         <slot />

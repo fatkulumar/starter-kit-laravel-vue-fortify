@@ -50,3 +50,6 @@
 #### Reminder
     app/Http/Middleware/HandleInertiaRequests.php => setting $page
     config/fortify => enable/disable two factor auth
+    resouce/js/components/appSidebar.vue => menu sidebar
+    resouce/js/layouts/AuthLayout.vue => view auth
+    resouce/js/layouts/AppLayout.vue => view dashboard

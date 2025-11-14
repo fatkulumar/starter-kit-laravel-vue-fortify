@@ -21,4 +21,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     <CreatorLayout v-if="$page.props.auth.user.role == 'creator'" :breadcrumbs="breadcrumbs">
         <ContentDashboardCreator />
     </CreatorLayout>
+    <CreatorLayout v-if="$page.props.auth.user.role == 'member'" :breadcrumbs="breadcrumbs">
+        <ContentDashboardCreator />
+    </CreatorLayout>
 </template>

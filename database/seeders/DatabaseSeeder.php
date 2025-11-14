@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RoleEnum;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,26 +16,28 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $roles = ['admin', 'member', 'creator'];
-
-        foreach ($roles as $roleName) {
-            Role::updateOrCreate(['name' => $roleName], ['guard_name' => 'web']);
+        foreach (RoleEnum::cases() as $role) {
+            Role::updateOrCreate(
+                ['name' => $role->value],
+                ['guard_name' => 'web']
+            );
         }
 
         $users = [
-            ['name' => 'Admin', 'email' => 'admin@gmail.com', 'role' => 'admin'],
-            ['name' => 'Member', 'email' => 'member@gmail.com', 'role' => 'member'],
-            ['name' => 'Creator', 'email' => 'creator@gmail.com', 'role' => 'creator'],
+            ['name' => 'Admin',   'email' => 'admin@gmail.com',   'role' => RoleEnum::ADMIN],
+            ['name' => 'Member',  'email' => 'member@gmail.com',  'role' => RoleEnum::MEMBER],
+            ['name' => 'Creator', 'email' => 'creator@gmail.com', 'role' => RoleEnum::CREATOR],
         ];
 
         foreach ($users as $data) {
             $user = User::factory()->create([
-                'name' => $data['name'],
+                'name'  => $data['name'],
                 'email' => $data['email'],
             ]);
-            $user->syncRoles($data['role']);
+
+            $user->syncRoles($data['role']->value);
         }
 
-        User::factory(40)->create();
+        // User::factory(40)->create();
     }
 }
