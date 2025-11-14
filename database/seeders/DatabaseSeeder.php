@@ -14,21 +14,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::updateOrCreate(['name' => 'admin']);
-        Role::updateOrCreate(['name' => 'member']);
 
-        $admin = User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@gmail.com',
-        ]);
-        $admin->assignRole('admin');
+        $roles = ['admin', 'member', 'creator'];
 
-        $member = User::factory()->create([
-            'name' => 'Member',
-            'email' => 'member@gmail.com',
-        ]);
-        
-        $member->assignRole('member');
+        foreach ($roles as $roleName) {
+            Role::updateOrCreate(['name' => $roleName], ['guard_name' => 'web']);
+        }
+
+        $users = [
+            ['name' => 'Admin', 'email' => 'admin@gmail.com', 'role' => 'admin'],
+            ['name' => 'Member', 'email' => 'member@gmail.com', 'role' => 'member'],
+            ['name' => 'Creator', 'email' => 'creator@gmail.com', 'role' => 'creator'],
+        ];
+
+        foreach ($users as $data) {
+            $user = User::factory()->create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+            ]);
+            $user->syncRoles($data['role']);
+        }
 
         User::factory(40)->create();
     }
